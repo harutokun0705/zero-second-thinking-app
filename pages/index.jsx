@@ -1,13 +1,15 @@
 import Button from "../components/atoms/Button"
 import InputField from "../components/atoms/InputField"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
+import { CountDownTimer } from "../components/organisms/CountdownTimer";
 
 export default function Home() {
-  const [buttonDisabled,setButtonDisabled] = useState(true);
-  const [theme,setTheme] = useState('');
-  const [contents,setContents] = useState('');
-  const [inputDisabled,setInputDisabled] = useState(true);
-  const inputRef = useRef();
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [theme, setTheme] = useState('');
+  const [contents, setContents] = useState('');
+  const [inputDisabled, setInputDisabled] = useState(true);
+  const [isContentsDisplay, setIsContentsDisplay] = useState(false)
+  const hoursMinSecs = { hours: 0, minutes: 1, seconds: 0 }
   const handleTheme = (e) => {
     const targetValue = e.target.value;
     setTheme(targetValue);
@@ -15,12 +17,14 @@ export default function Home() {
   const clickevent = () => {
     console.log("click!!!!!");
     setInputDisabled(false);
+    setButtonDisabled(true);
+    setIsContentsDisplay(true);
   };
   const handleKeydown = (e) => {
     if (e.keyCode === 13) {
       console.log(contents);
       console.log("enter!!");
-      inputRef.current.value = "";
+      e.target.value = ""
     }
   }
   const handleContents = (e) => {
@@ -28,15 +32,15 @@ export default function Home() {
     setContents(targetValue);
     console.log(contents);
   }
-  useEffect(()=> {
+  useEffect(() => {
     console.log(theme);
-    if(theme !== "") {
+    if (theme !== "") {
       setButtonDisabled(false);
-    }else {
+    } else {
       setButtonDisabled(true);
     }
     console.log(buttonDisabled);
-  },[theme]);
+  }, [theme]);
   return (
     <>
       <header className="bg-green-500 w-full h-20 flex justify-center items-center">
@@ -53,14 +57,22 @@ export default function Home() {
           value="設定する"
           onClick={clickevent}
         />
-        <InputField
-          placeholder={"内容を入力してください！"}
-          value={contents}
-          onChange={handleContents}
-          disabled={inputDisabled}
-          onKeyDown={handleKeydown}
-          ref={inputRef}
-        />
+        {isContentsDisplay ?
+          <>
+            <CountDownTimer
+              hoursMinSecs={hoursMinSecs}
+            />
+            <InputField
+              placeholder={"内容を入力してください！"}
+              value={contents}
+              onChange={handleContents}
+              disabled={inputDisabled}
+              onKeyDown={handleKeydown}
+            />
+          </>
+          : ""}
+
+
       </div>
 
     </>

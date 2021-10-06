@@ -1,5 +1,7 @@
-const InputField = (props) => {
-    const { placeholder,onChange, disabled ,onKeyDown, ref}= props;
+import { useRef, forwardRef } from 'react';
+export const InputField = (props) => {
+    const { placeholder, onChange, disabled, onKeyDown } = props;
+    const inputRef = useRef();
     return (
         <input
             type="text"
@@ -8,9 +10,8 @@ const InputField = (props) => {
             onChange={onChange}
             disabled={disabled}
             onKeyDown={onKeyDown}
-            ref={ref}
         />
     )
 }
 
-export default InputField
+export default InputField;
