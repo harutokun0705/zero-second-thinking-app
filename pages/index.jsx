@@ -9,7 +9,7 @@ export default function Home() {
   const [contents, setContents] = useState('');
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isContentsDisplay, setIsContentsDisplay] = useState(false)
-  const hoursMinSecs = { hours: 0, minutes: 1, seconds: 0 }
+  const [submitContents, setSubmitContents] = useState([]);
   const handleTheme = (e) => {
     const targetValue = e.target.value;
     setTheme(targetValue);
@@ -24,6 +24,9 @@ export default function Home() {
     if (e.keyCode === 13) {
       console.log(contents);
       console.log("enter!!");
+      if (e.target.value !== "") {
+        setSubmitContents([...submitContents, { contentsName: contents }])
+      }
       e.target.value = ""
     }
   }
@@ -44,7 +47,7 @@ export default function Home() {
   return (
     <>
       <header className="bg-green-500 w-full h-20 flex justify-center items-center">
-        <span className="text-white text-2xl">zero tinkings</span>
+        <span className="text-white text-2xl">zero thinkings</span>
       </header>
       <div className="text-center">
         <InputField
@@ -60,7 +63,7 @@ export default function Home() {
         {isContentsDisplay ?
           <>
             <CountDownTimer
-              hoursMinSecs={hoursMinSecs}
+              setInputDisabled={setInputDisabled}
             />
             <InputField
               placeholder={"内容を入力してください！"}
@@ -69,6 +72,15 @@ export default function Home() {
               disabled={inputDisabled}
               onKeyDown={handleKeydown}
             />
+            <div className="border-2 rounded-md border-green-200 w-2/3 h-auto mx-auto my-3 py-3 px-10">
+              <label htmlFor="" className="text-4xl border-b-2 border-gray-400 my-3">テーマ: {theme}</label>
+              {submitContents.map((item, i) =>
+                <ul className="text-left">
+                  <li key={i} className="text-2xl w-full  border-b-2 border-gray-40">{item.contentsName}</li>
+                </ul>
+              )}
+            </div>
+
           </>
           : ""}
 
