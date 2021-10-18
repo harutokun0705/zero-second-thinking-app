@@ -2,6 +2,7 @@ import Button from "../components/atoms/Button"
 import InputField from "../components/atoms/InputField"
 import { useEffect, useState } from "react"
 import { CountDownTimer } from "../components/organisms/CountdownTimer";
+import { Header } from "../components/organisms/Header";
 
 export default function Home() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -46,9 +47,7 @@ export default function Home() {
   }, [theme]);
   return (
     <>
-      <header className="bg-green-500 w-full h-20 flex justify-center items-center">
-        <span className="text-white text-2xl">zero thinkings</span>
-      </header>
+      <Header />
       <div className="text-center">
         <InputField
           placeholder={"テーマを入力してください！"}
@@ -80,7 +79,10 @@ export default function Home() {
                 </ul>
               )}
             </div>
-
+            <Button
+              value="新しく始める"
+              onClick={clickevent}
+            />
           </>
           : ""}
 

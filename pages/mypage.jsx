@@ -1,7 +1,12 @@
-const About = () => {
-    return (
-      <h1>my Page</h1>
-    )
-  }
+import { Header } from "../components/organisms/Header"
 
-  export default About
+export default function mypage() {
+  return (
+    <>
+      <Header />
+      <h1 className="text-center text-4xl mt-10">過去のゼロ秒思考一覧</h1>
+    </>
+  )
+}
+
+// export default mypage;
