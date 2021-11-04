@@ -1,6 +1,16 @@
+import { useEffect } from "react"
 import { Header } from "../components/organisms/Header"
-
+import { supabase } from "../util/supabase"
 export default function mypage() {
+  useEffect(() => {
+    fetchTodos()
+  }, [])
+
+  const fetchTodos = async () => {
+    let { data: todos, error } = await supabase.from('contents').select('*').order('id', true)
+    if (error) console.log('error', error)
+    else console.log(todos, "aaaaa");
+  }
   return (
     <>
       <Header />
