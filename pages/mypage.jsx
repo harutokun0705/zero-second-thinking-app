@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
-import { Header } from "../components/organisms/Header"
-import { supabase } from "../util/supabase"
+import { useEffect, useState } from "react";
+import { Header } from "../components/organisms/Header";
+import { supabase } from "../util/supabase";
 export default function mypage() {
-  const [contentsState, setContentsState] = useState([{ theme: "てすと", contents: ["あいうえお", "abcde"] }]);
+  const [contentsState, setContentsState] = useState([]);
   console.log(setContentsState);
   useEffect(() => {
     fetchTodos()
@@ -10,6 +10,14 @@ export default function mypage() {
   const fetchTodos = async () => {
     let { data: todos } = await supabase.from('contents').select('*').order('id', true)
     console.log(todos);
+    const newContentsState = [...contentsState];
+    todos.map((_, mIndex) => {
+      const { theme, value } = todos[mIndex];
+      console.log(theme, value);
+      newContentsState.push({ theme: theme, contents: value });
+      console.log(newContentsState);
+    })
+    setContentsState(newContentsState);
   }
   return (
     <>

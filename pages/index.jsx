@@ -3,13 +3,14 @@ import InputField from "../components/atoms/InputField"
 import { useEffect, useState } from "react"
 import { CountDownTimer } from "../components/organisms/CountdownTimer";
 import { Header } from "../components/organisms/Header";
+import { supabase } from "../util/supabase";
 
 export default function Home() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [theme, setTheme] = useState('');
   const [contents, setContents] = useState('');
   const [inputDisabled, setInputDisabled] = useState(true);
-  const [isContentsDisplay, setIsContentsDisplay] = useState(false)
+  const [isContentsDisplay, setIsContentsDisplay] = useState(false);
   const [submitContents, setSubmitContents] = useState([]);
   const handleTheme = (e) => {
     const targetValue = e.target.value;
@@ -21,6 +22,15 @@ export default function Home() {
     setButtonDisabled(true);
     setIsContentsDisplay(true);
   };
+
+  const submit = async () => {
+    console.log("submit!!!");
+    console.log(submitContents);
+    const newSubmitContents = [...submitContents];
+    const insertContents = newSubmitContents.map((item) => item.contentsName);
+    console.log(insertContents);
+    await supabase.from("contents").insert({ theme: theme, value: insertContents });
+  }
   const handleKeydown = (e) => {
     if (e.keyCode === 13) {
       console.log(contents);
@@ -81,7 +91,7 @@ export default function Home() {
             </div>
             <Button
               value="新しく始める"
-              onClick={clickevent}
+              onClick={submit}
             />
           </>
           : ""}
