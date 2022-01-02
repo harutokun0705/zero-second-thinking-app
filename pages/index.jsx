@@ -1,6 +1,6 @@
 import Button from "../components/atoms/Button"
 import InputField from "../components/atoms/InputField"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CountDownTimer } from "../components/organisms/CountdownTimer";
 import { Header } from "../components/organisms/Header";
 import { supabase } from "../util/supabase";
@@ -22,14 +22,19 @@ export default function Home() {
     setButtonDisabled(true);
     setIsContentsDisplay(true);
   };
-
+  const themeRef = useRef(theme);
   const submit = async () => {
-    console.log("submit!!!");
-    console.log(submitContents);
     const newSubmitContents = [...submitContents];
     const insertContents = newSubmitContents.map((item) => item.contentsName);
-    console.log(insertContents);
     await supabase.from("contents").insert({ theme: theme, value: insertContents });
+    setContents("");
+    setInputDisabled(true);
+    setIsContentsDisplay(false);
+    setSubmitContents([]);
+    console.log(themeRef.current);
+    setTheme("");
+    // themeRef.current.value = "";/
+    console.log(theme);
   }
   const handleKeydown = (e) => {
     if (e.keyCode === 13) {
@@ -63,6 +68,7 @@ export default function Home() {
           placeholder={"テーマを入力してください！"}
           value={theme}
           onChange={handleTheme}
+          ref={themeRef}
         />
         <Button
           disabled={buttonDisabled}
